@@ -1,0 +1,66 @@
+<!--
+ * @Description: 
+ * @Autor: HWK
+ * @Date: 2020-03-29 20:55:56
+ * @LastEditors: HWK
+ * @LastEditTime: 2020-04-01 21:12:21
+ -->
+<template>
+  <div class="todo-header">
+    <input type="text" placeholder="请输入你的任务名称，按回车键确认" v-model="title" @keyup.enter="addItem" />
+  </div>
+</template>
+
+<script type="text/javascript">
+  export default {
+    props: {
+
+    },
+    data() {
+      return {
+        title: ''
+      }
+    },
+    methods: {
+      addItem() {
+        //1.检查输入的合法性
+        const title = this.title.trim()
+        if (!title) {
+          alert('不能为空！！！！')
+          return
+        }
+        //2.根据输入的数据，封装成一个todo对象
+        const todo = {
+          title,
+          complete: false
+        }
+        //3.添加到todos中
+        //this.addTodo(todo)
+        //用绑定自定义事件监听的办法后，要在这里触发自定义事件
+        this.$emit('addTodo', todo)
+        //4.清除输入
+        this.title = ''
+      }
+    }
+  }
+
+</script>
+
+<style>
+  /*header*/
+  .todo-header input {
+    width: 560px;
+    height: 28px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 4px 7px;
+  }
+
+  .todo-header input:focus {
+    outline: none;
+    border-color: rgba(82, 168, 236, 0.8);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
+  }
+
+</style>

@@ -1,0 +1,35 @@
+<!--
+ * @Description: 
+ * @Autor: HWK
+ * @Date: 2020-04-07 22:10:47
+ * @LastEditors: HWK
+ * @LastEditTime: 2020-04-08 21:54:23
+ -->
+<template>
+  <div>
+    <h2>Home</h2>
+    <div>
+      <ul class="nav nav-tabs">
+        <li>
+          <router-link to="/home/news">News</router-link>
+        </li>
+        <li>
+          <router-link to="/home/message">Message</router-link>
+        </li>
+      </ul>
+      <div>
+        <router-view></router-view>
+        <hr>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+  export default {}
+
+</script>
+
+<style>
+
+</style>
