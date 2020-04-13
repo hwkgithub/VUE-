@@ -1,13 +1,13 @@
 function Compile(el, vm) {
-  // 保存vm
+  // 保存vm到Compile对象
   this.$vm = vm;
-  // 保存el元素
+  // 保存el元素到Compile对象中 querySelector()方法返回文档中匹配指定 CSS 选择器的一个元素
   this.$el = this.isElementNode(el) ? el : document.querySelector(el);
   // 如果el元素存在
   if (this.$el) {
     // 1. 取出el中所有子节点, 封装在一个framgment对象中
     this.$fragment = this.node2Fragment(this.$el);
-    // 2. 编译fragment中所有层次子节点
+    // 2. 编译fragment中所有层次子节点（初始化）
     this.init();
     // 3. 将fragment添加到el中
     this.$el.appendChild(this.$fragment);
@@ -16,33 +16,34 @@ function Compile(el, vm) {
 
 Compile.prototype = {
   node2Fragment: function (el) {
+    //创建空的fragment对象
     var fragment = document.createDocumentFragment(),
       child;
 
-    // 将原生节点拷贝到fragment
+    // 将el中所有的子节点转移到fragment
     while (child = el.firstChild) {
       fragment.appendChild(child);
     }
-
+    //返回fragment
     return fragment;
   },
 
   init: function () {
-    // 编译fragment
+    // 编译fragment所有的子节点
     this.compileElement(this.$fragment);
   },
 
   compileElement: function (el) {
     // 得到所有子节点
     var childNodes = el.childNodes,
-      // 保存compile对象
-      me = this;
+    // 保存compile对象
+    me = this;
     // 遍历所有子节点
     [].slice.call(childNodes).forEach(function (node) {
       // 得到节点的文本内容
       var text = node.textContent;
       // 正则对象(匹配大括号表达式)
-      var reg = /\{\{(.*)\}\}/;  // {{name}}
+      var reg = /\{\{(.*)\}\}/; // {{name}}
       // 如果是元素节点
       if (me.isElementNode(node)) {
         // 编译元素节点的指令属性
@@ -68,9 +69,9 @@ Compile.prototype = {
     [].slice.call(nodeAttrs).forEach(function (attr) {
       // 得到属性名: v-on:click
       var attrName = attr.name;
-      // 判断是否是指令属性
+      // 判断是否是指令属性 v-是自己加的下面有方法识别
       if (me.isDirective(attrName)) {
-        // 得到表达式(属性值): test
+        // 得到表达式(属性值): show//test
         var exp = attr.value;
         // 得到指令名: on:click
         var dir = attrName.substring(2);
@@ -78,7 +79,7 @@ Compile.prototype = {
         if (me.isEventDirective(dir)) {
           // 解析事件指令
           compileUtil.eventHandler(node, me.$vm, exp, dir);
-        // 普通指令
+          // 普通指令
         } else {
           // 解析普通指令
           compileUtil[dir] && compileUtil[dir](node, me.$vm, exp);
@@ -149,12 +150,14 @@ var compileUtil = {
   bind: function (node, vm, exp, dir) {
     /*实现初始化显示*/
     // 根据指令名(text)得到对应的更新节点函数
+    //调用对象可以用.也可以用中括号，因为后面是函数，存的是变量，所以用中括号
     var updaterFn = updater[dir + 'Updater'];
     // 如果存在调用来更新节点
     updaterFn && updaterFn(node, this._getVMVal(vm, exp));
 
     // 创建表达式对应的watcher对象
-    new Watcher(vm, exp, function (value, oldValue) {/*更新界面*/
+    new Watcher(vm, exp, function (value, oldValue) {
+      /*更新界面*/
       // 当对应的属性值发生了变化时, 自动调用, 更新对应的节点
       updaterFn && updaterFn(node, value, oldValue);
     });

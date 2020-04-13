@@ -1,10 +1,17 @@
 /*
+ * @Description: 
+ * @Autor: HWK
+ * @Date: 2020-04-11 20:18:17
+ * @LastEditors: HWK
+ * @LastEditTime: 2020-04-12 22:06:28
+ */
+/*
 相关于Vue的构造函数
  */
 function MVVM(options) {
   // 将选项对象保存到vm
   this.$options = options;
-  // 将data对象保存到vm和datq变量中
+  // 将data对象保存到vm和data变量中
   var data = this._data = this.$options.data;
   //将vm保存在me变量中
   var me = this;

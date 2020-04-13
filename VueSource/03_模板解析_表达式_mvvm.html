@@ -1,3 +1,10 @@
+<!--
+ * @Description: 
+ * @Autor: HWK
+ * @Date: 2020-04-11 20:18:17
+ * @LastEditors: HWK
+ * @LastEditTime: 2020-04-13 22:24:00
+ -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,6 +15,7 @@
 
 <div id="test">
   <p>{{name}}</p>
+  <button v-on:click="show">提示</button>
 </div>
 
 
@@ -20,6 +28,11 @@
     el: '#test',
     data: {
       name: 'SADAMU'
+    },
+    methods: {
+      show(){
+        alert(this.name)
+      }
     }
   })
 </script>
