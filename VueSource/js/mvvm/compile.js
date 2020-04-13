@@ -36,8 +36,8 @@ Compile.prototype = {
   compileElement: function (el) {
     // 得到所有子节点
     var childNodes = el.childNodes,
-    // 保存compile对象
-    me = this;
+      // 保存compile对象
+      me = this;
     // 遍历所有子节点
     [].slice.call(childNodes).forEach(function (node) {
       // 得到节点的文本内容
@@ -214,12 +214,10 @@ var updater = {
 
   // 更新节点的className
   classUpdater: function (node, value, oldValue) {
+    //静态class属性的值  bClass
     var className = node.className;
-    className = className.replace(oldValue, '').replace(/\s$/, '');
-
-    var space = className && String(value) ? ' ' : '';
-
-    node.className = className + space + value;
+    //将静态class属性的值与动态class值进行合并后设置为信的className属性值
+    node.className = className + (className ? ' ' : '') + value;
   },
 
   // 更新节点的value
