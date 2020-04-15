@@ -1,9 +1,16 @@
+/*
+ * @Description: 
+ * @Autor: HWK
+ * @Date: 2020-04-11 20:18:17
+ * @LastEditors: HWK
+ * @LastEditTime: 2020-04-15 22:56:33
+ */
 function Watcher(vm, exp, cb) {
-  this.cb = cb;  // callback
+  this.cb = cb; // 更新界面的回调函数
   this.vm = vm;
   this.exp = exp;
-  this.depIds = {};  // {0: d0, 1: d1, 2: d2}
-  this.value = this.get();
+  this.depIds = {}; // {0: d0, 1: d1, 2: d2} 包含所有相关dep的容器对象
+  this.value = this.get(); //得到表达式的初始值保存
 }
 
 Watcher.prototype = {
@@ -23,6 +30,7 @@ Watcher.prototype = {
     }
   },
   addDep: function (dep) {
+    //判断dep和watcher之间的关系是否已经建立
     if (!this.depIds.hasOwnProperty(dep.id)) {
       // 建立dep到watcher
       dep.addSub(this);
@@ -30,15 +38,17 @@ Watcher.prototype = {
       this.depIds[dep.id] = dep;
     }
   },
+  //得到表达式的值，但是会建立dep和watcher的关系
   get: function () {
+    //给dep指定当前的watcher
     Dep.target = this;
     // 获取当前表达式的值, 内部会导致属性的get()调用
     var value = this.getVMVal();
-
+    //去除dep中指定的当前watcher 因为关系已经建立了
     Dep.target = null;
     return value;
   },
-
+  //得到表达时对应的值
   getVMVal: function () {
     var exp = this.exp.split('.');
     var val = this.vm._data;
@@ -48,28 +58,4 @@ Watcher.prototype = {
     return val;
   }
 };
-/*
-
-const obj1 = {id: 1}
-const obj12 = {id: 2}
-const obj13 = {id: 3}
-const obj14 = {id: 4}
-
-const obj2 = {}
-const obj22 = {}
-const obj23 = {}
-// 双向1对1
-// obj1.o2 = obj2
-// obj2.o1 = obj1
-
-// obj1: 1:n
-obj1.o2s = [obj2, obj22, obj23]
-
-// obj2: 1:n
-obj2.o1s = {
-  1: obj1,
-  2: obj12,
-  3: obj13
-}
-*/
-
+Dep.target = null;

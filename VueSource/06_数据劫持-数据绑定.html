@@ -1,3 +1,10 @@
+<!--
+ * @Description: 
+ * @Autor: HWK
+ * @Date: 2020-04-11 20:18:17
+ * @LastEditors: HWK
+ * @LastEditTime: 2020-04-15 22:56:53
+ -->
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,6 +35,10 @@ watcher
   多个指令或表达式用到了当前同一个属性  {{name}} {{name}}
 2. 什么时候一个watcher中关联多个dep?
   多层表达式的watcher对应多个dep    {{a.b.c}}
+
+什么时候建立？如何建立？
+  初始化的解析模板中的表达式时创建   在data中属性的get()方法中建立
+  先建立dep 在建立watcher 然后在互相建立联系
 -->
 
 
@@ -48,6 +59,7 @@ watcher
     methods: {
       update () {
         this.name = 'avatar'
+        this.wife.name = 'kkkk'
       }
     }
   })

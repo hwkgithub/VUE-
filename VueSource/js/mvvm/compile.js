@@ -150,7 +150,7 @@ var compileUtil = {
   bind: function (node, vm, exp, dir) {
     /*实现初始化显示*/
     // 根据指令名(text)得到对应的更新节点函数
-    //调用对象可以用.也可以用中括号，因为后面是函数，存的是变量，所以用中括号
+    //调用对象可以用.也可以用中括号，因为后面是函数，存的是变量，会变化，所以用中括号
     var updaterFn = updater[dir + 'Updater'];
     // 如果存在调用来更新节点
     updaterFn && updaterFn(node, this._getVMVal(vm, exp));
