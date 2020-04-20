@@ -3,7 +3,7 @@
  * @Autor: HWK
  * @Date: 2020-04-19 09:35:32
  * @LastEditors: HWK
- * @LastEditTime: 2020-04-19 11:10:47
+ * @LastEditTime: 2020-04-19 18:30:19
  */
 /*
 包含n个用于间接更新状态的方法的对象模块
@@ -12,8 +12,10 @@ import {
   ADD_TODO,
   DELETE_TODO,
   SELECT_ALL_TODOS,
-  DELETE_COMPLETE_TODOS
+  DELETE_COMPLETE_TODOS,
+  RECEIVE_TODOS
 } from './mutation-types'
+import storageUtil from '../utils/storageUtils'
 
 export default {
   //对面header里面的add方法
@@ -53,5 +55,17 @@ export default {
     commit
   }) {
     commit(DELETE_COMPLETE_TODOS)
+  },
+
+  //异步获取todos更新状态
+  reqTodos({
+    commit
+  }) {
+    setTimeout(() => {
+      //读取数据 readTodos是storageUtils里面定义的方法
+      const todos = storageUtil.readTodos()
+      //提交mutation
+      commit(RECEIVE_TODOS,todos)
+    }, 1000)
   }
 }

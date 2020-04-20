@@ -3,7 +3,7 @@
  * @Autor: HWK
  * @Date: 2020-04-19 09:35:32
  * @LastEditors: HWK
- * @LastEditTime: 2020-04-19 10:16:47
+ * @LastEditTime: 2020-04-19 18:48:27
  -->
 <template>
   <ul class="todo-main">
@@ -21,8 +21,8 @@ import { mapState } from 'vuex'
 import TodoItem from './TodoItem.vue'
 import storageUtils from '../utils/storageUtils'
 
-export default {
-  //因为list需要todos需要在vuex里面读 这个时候要用到computed
+export default {  
+  //因为list需要todos的时候需要在vuex里面读 这个时候要用到computed
   computed: {
     ...mapState(['todos'])
   },
@@ -30,7 +30,7 @@ export default {
   watch: {
     todos: {
       deep: true, // 深度监视
-      handler: storageUtils.saveTodos,
+      handler: storageUtils.saveTodos, //保存todos到localStorage
     }
   },
 

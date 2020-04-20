@@ -3,7 +3,7 @@
  * @Autor: HWK
  * @Date: 2020-04-19 09:35:32
  * @LastEditors: HWK
- * @LastEditTime: 2020-04-19 09:41:46
+ * @LastEditTime: 2020-04-19 18:26:48
  -->
 <template>
   <div class="todo-container">
@@ -21,6 +21,10 @@ import TodoList from './components/TodoList.vue'
 import TodoFooter from './components/TodoFooter.vue'
 
 export default {
+  mounted(){
+    //发送命令给action异步获取保存todos数据并显示
+    this.$store.dispatch('reqTodos')
+  },
 
   components: {
     TodoHeader,

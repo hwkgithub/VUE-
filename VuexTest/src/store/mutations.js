@@ -3,7 +3,7 @@
  * @Autor: HWK
  * @Date: 2020-04-19 09:35:32
  * @LastEditors: HWK
- * @LastEditTime: 2020-04-19 11:07:48
+ * @LastEditTime: 2020-04-19 19:39:51
  */
 /*
 
@@ -12,7 +12,8 @@ import {
   ADD_TODO,
   DELETE_TODO,
   SELECT_ALL_TODOS,
-  DELETE_COMPLETE_TODOS
+  DELETE_COMPLETE_TODOS,
+  RECEIVE_TODOS
 } from './mutation-types'
 
 export default {
@@ -43,5 +44,10 @@ export default {
   //对应footer里面的deleteCompleteTodos方法
   [DELETE_COMPLETE_TODOS](state) {
     state.todos = state.todos.filter(todo => !todo.complete)
+  },
+
+  //异步获取保存todos数据并显示
+  [RECEIVE_TODOS](state,todos){
+    state.todos = todos
   }
 }
